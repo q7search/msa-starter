@@ -56,7 +56,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                                             Authentication authResult) throws IOException, ServletException {
         //super.successfulAuthentication(request, response, chain, authResult);
         String username = ((User) authResult.getPrincipal()).getUsername();
-        log.debug(username);
+
 
         UserDto userDetails = userService.getUserDetailsByEmail(username);
 
@@ -66,6 +66,8 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                         Long.parseLong(env.getProperty("token.expiration_time"))))
                 .signWith(SignatureAlgorithm.HS512, env.getProperty("token.secret"))
                 .compact();
+
+        log.debug("active token : {}", env.getProperty("token.secret"));
 
         response.setHeader("token", token);
         response.setHeader("userId", userDetails.getUserId());

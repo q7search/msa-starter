@@ -11,6 +11,11 @@ eureka:
 spring:
   application:
     name: apigateway-service
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: admin
+    password: rabbit@30
   cloud:
     gateway:
 #      default-filters:
@@ -24,6 +29,9 @@ spring:
 #          uri: lb://USER-SERVICE
 #          predicates:
 #            - Path=/user-service/**
+
+        # [USER-SERVICE AUTH NOT REQUIRED]
+        # LOGIN
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
@@ -40,6 +48,17 @@ spring:
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+        # ACTUATOR
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/actuator/**
+            - Method=GET,POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+        # [USER-SERVICE AUTH REQUIRED]
+        # ALL GET
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
@@ -59,5 +78,11 @@ spring:
           predicates:
             - Path=/order-service/**
 
-token:
-  secret: user_token
+#token:
+#  secret: user_token
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans, busrefresh

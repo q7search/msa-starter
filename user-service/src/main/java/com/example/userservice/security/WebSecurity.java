@@ -15,6 +15,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.IpAddressMatcher;
 
+import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
+
 @Configuration
 @EnableWebSecurity
 public class WebSecurity {
@@ -46,9 +48,9 @@ public class WebSecurity {
                 .headers(httpSecurityHeadersConfigurer -> httpSecurityHeadersConfigurer
                         .frameOptions(frameOptionsConfig -> frameOptionsConfig.disable()))
                 .authorizeHttpRequests(authorize -> authorize
-                                .requestMatchers(new IpAddressMatcher("127.0.0.1"))
+                                .requestMatchers(new IpAddressMatcher("127.0.0.1")).permitAll()
+                                .requestMatchers(antMatcher("/actuator/**")).permitAll()
 //                                .requestMatchers(antMatcher("/**"))
-                                .permitAll()
                                 .requestMatchers(PathRequest.toH2Console()).permitAll()
                                 .anyRequest().authenticated()
                 )
