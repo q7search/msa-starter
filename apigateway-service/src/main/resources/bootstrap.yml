@@ -3,8 +3,8 @@ spring:
     config:
       uri: http://127.0.0.1:8888 #config server
       name: config-service
-  profiles:
-    active: dev
+#  profiles:
+#    active: dev
 
 management:
   endpoints:

@@ -13,7 +13,7 @@ public class ResponseOrder implements Serializable {
     private Integer qty;
     private Integer unitPrice;
     private Integer totalPrice;
-    private Date creatAt;
+    private Date createdAt;
 
     private String orderId;
 }

@@ -33,9 +33,10 @@ eureka:
     register-with-eureka: true
 greeting:
   message: Welcome to the E-commerce.
+
 logging:
   level:
-    com.example.userservice: DEBUG
+    com.example.userservice.client: DEBUG
 
 management:
   endpoints:

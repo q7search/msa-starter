@@ -30,7 +30,7 @@ spring:
 #          predicates:
 #            - Path=/user-service/**
 
-        # [USER-SERVICE AUTH NOT REQUIRED]
+        # [USER-SERVICE] AUTH NOT REQUIRED
         # LOGIN
         - id: user-service
           uri: lb://USER-SERVICE
@@ -57,7 +57,7 @@ spring:
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
-        # [USER-SERVICE AUTH REQUIRED]
+        # [USER-SERVICE] AUTH REQUIRED
         # ALL GET
         - id: user-service
           uri: lb://USER-SERVICE
@@ -73,13 +73,12 @@ spring:
           uri: lb://CATALOG-SERVICE
           predicates:
             - Path=/catalog-service/**
+
+        # [ORDER-SERVICE] AUTH NOT REQUIRED
         - id: order-service
           uri: lb://ORDER-SERVICE
           predicates:
             - Path=/order-service/**
-
-#token:
-#  secret: user_token
 
 management:
   endpoints:
